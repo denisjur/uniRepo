@@ -1,11 +1,9 @@
 // A simple variant of the game Snake
 //
-// Used for teaching in classes
-//
 // Author:
 // Denis Jur
 // University of Applied Sciences
-//
+
 
 #include <curses.h>
 #include <stdio.h>
@@ -19,13 +17,6 @@
 // Constants, data structures
 // ********************************************************************************************
 
-//#define true 1
-//#define false 0
-
-// Result codes of functions
-//#define RES_OK 0
-//#define RES_FAILED 1
-
 enum ResCodes {
   RES_OK,
   RES_FAILED,
@@ -37,7 +28,6 @@ enum ResCodes {
 #define MIN_NUMBER_OF_COLS 10   // The guaranteed number of columns available for the board
 
 // Numbers for color pairs used by curses macro COLOR_PAIR
-//#define COLP_USER_WORM 1 // color pairs
 
 enum ColorPairs {
   COLP_USER_WORM = 1,
@@ -47,22 +37,15 @@ enum ColorPairs {
 #define SYMBOL_WORM_INNER_ELEMENT '0'
 
 // Game state codes
-//#define  WORM_GAME_ONGOING  0
-//#define  WORM_OUT_OF_BOUNDS 1   // Left screen
-//#define  WORM_GAME_QUIT     2   // User likes to quit
 
 enum GameStates {
-  WORM_GAME_ONGOING,
-  WORM_OUT_OF_BOUNDS,
-  WORM_GAME_QUIT,
+  WORM_GAME_ONGOING,    // Ich befindet mich im Spiel in dieser STATE
+  WORM_OUT_OF_BOUNDS,   // leaving screen
+  WORM_GAME_QUIT,       // User wants to quit
 };
 
 
 // Directions for the worm
-//#define WORM_UP      0
-//#define WORM_DOWN    1
-//#define WORM_LEFT    2
-//#define WORM_RIGHT   3
 
 enum WormHeading {
   WORM_UP,
@@ -70,6 +53,7 @@ enum WormHeading {
   WORM_LEFT,
   WORM_RIGHT,
 };
+
 // ********************************************************************************************
 // Global variables
 // ********************************************************************************************
@@ -80,10 +64,10 @@ int theworm_headpos_x;  // x-coordinate of the worm's head
 
 // The current heading of the worm
 // These are offsets from the set {-1,0,+1}
-int theworm_dx; // ich bewege mich delta x richtung; in delta -x richtung etc
+int theworm_dx; // Ich bewege mich um Delta x in eine Richtung
 int theworm_dy;
 
-enum ColorPairs theworm_wcolor; 
+enum ColorPairs theworm_wcolor; //Nun bestimmen wir die Farbe des Wurms 
 
 // ********************************************************************************************
 // Forward declarations of functions
@@ -93,7 +77,7 @@ enum ColorPairs theworm_wcolor;
 
 // Management of the game
 void initializeColors();
-void readUserInput(enum GameStates* agame_state);
+void readUserInput(enum GameStates* agame_state); // Wir reagieren auf den Tastendruck
 enum ResCodes doLevel();
 
 // Standard curses initialization and cleanup
@@ -102,7 +86,7 @@ void cleanupCursesApp(void);
 
 // Placing and removing items from the game board
 // Check boundaries of game board
-void placeItem(int y, int x, chtype symbol, enum ColorPairs color_pair);
+void placeItem(int y, int x, chtype symbol, enum ColorPairs color_pair);  // E ca si mvaddch in int y si in int x
 int getLastRow();
 int getLastCol();
 
@@ -127,11 +111,12 @@ void initializeColors() {
     init_pair(COLP_USER_WORM, COLOR_CYAN, COLOR_BLACK);
 }
 
-void readUserInput(enum GameStates* agame_state ) {
+void readUserInput(enum GameStates* agame_state ) { // Normal daca schimbi o variable in functie nu schimbi variabla din afara, aicea o faci
     int ch; // For storing the key codes
 
     if ((ch = getch()) > 0) {
-        // Is there some user input?
+        // Ca sa functioneze getch() trebe saq fie in non-blocking mode
+        // Is there some user input? 
         // Blocking or non-blocking depends of config of getch
         switch(ch) {
             case 'q' :    // User wants to end the show
@@ -145,15 +130,18 @@ void readUserInput(enum GameStates* agame_state ) {
                 break;
             case KEY_LEFT :// User wants left
                 setWormHeading(WORM_LEFT);
-                break;
+                break
             case KEY_RIGHT :// User wants right
                 setWormHeading(WORM_RIGHT);
                 break;
             case 's' : // User wants single step --- cheat mode!!
-                nodelay(stdscr, FALSE);  // We simply make getch blocking
+                nodelay(stdscr, FALSE);   // We simply make getch blocking
+                                          // Nodelay cu false e o doppelte Verneinung, deci inseamna delay si jocul asteapta bis zum nächsten Befehl
+                                          // stdscr = StandardScreen
+
                 break;
-            case ' ':
-                nodelay(stdscr, TRUE);   // Make getch non-blocking again
+            case ' ':                     // Terminate single step; make gletch non-blocking again
+                nodelay(stdscr, TRUE);    // Make getch non-blocking again
                 break;
         }
     }
@@ -210,7 +198,7 @@ enum ResCodes doLevel() {
         // END process userworm
 
         // Sleep a bit before we show the updated window
-        napms(NAP_TIME);
+        napms(NAP_TIME);  //Nap Millisekunden
 
         // Display all the updates
         refresh();
@@ -300,7 +288,7 @@ enum ResCodes initializeWorm(int headpos_y, int headpos_x, enum WormHeading dir,
     theworm_headpos_x = headpos_x;
 
     // Initialize the heading of the worm
-    setWormHeading(dir);
+    setWormHeading(dir);  // Richtung des Wurms
 
     // Initialze color of the worm
     theworm_wcolor = color;
@@ -313,6 +301,8 @@ enum ResCodes initializeWorm(int headpos_y, int headpos_x, enum WormHeading dir,
 void showWorm() {
     // Due to our encoding we just need to show the head element
     // All other elements are already displayed
+   
+    // Aici desenam Wurm-ul
     placeItem(
             theworm_headpos_y ,
             theworm_headpos_x,
@@ -328,7 +318,7 @@ void moveWorm(enum GameStates* agame_state) {
 
     // Check if we would leave the display if we move the worm's head according
     // to worm's last direction.
-    // We are not allowed to leave the display's window.
+    // We are not allowed to leave the display's window. Adica daca parasesti fereastra
     if (theworm_headpos_x < 0) {
         *agame_state = WORM_OUT_OF_BOUNDS;
     } else if (theworm_headpos_x > getLastCol() ) { 
