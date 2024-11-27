@@ -6,7 +6,7 @@ Multiplication of two variables.
 Calculating the scalar product of two 3-dimensional vectors.
 Displaying the results in hexadecimal format using the printf function from the C standard library.
 
-## 🛠️  Getting Started: Assemble and Link the Program:
+## 🛠️ Getting Started: Assemble and Link the Program
 
 To prepare the program for execution, assemble and link it using the following command:
 
