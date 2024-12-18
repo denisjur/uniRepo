@@ -97,27 +97,27 @@ enum ResCodes initializeLevel(struct board* aboard) {
     BC_BARRIER,SYMBOL_BARRIER,COLP_BARRIER);
   }
   // Barriers: use a loop
-  for (y = 5; y < 19; y++) {
-    int x = 8;
+  for (y = 7; y < 21; y++) {
+    int x = 17;
     placeItem(aboard,y,x,BC_BARRIER,SYMBOL_BARRIER,COLP_BARRIER);
   }
-  for (y = 12; y < 23; y++) {
-    int x = aboard->last_col - 12;
+  for (y = 13; y < 25; y++) {
+    int x = aboard->last_col - 11;
     placeItem(aboard,y,x,BC_BARRIER,SYMBOL_BARRIER,COLP_BARRIER);
   }
   // Food
   placeItem(aboard, 3, 3, BC_FOOD_1, SYMBOL_FOOD_1, COLP_FOOD_1);
   placeItem(aboard, 15, 40, BC_FOOD_1, SYMBOL_FOOD_1, COLP_FOOD_1);
 
-  placeItem(aboard, 11, 60, BC_FOOD_2, SYMBOL_FOOD_2, COLP_FOOD_2);
-  placeItem(aboard, 14, 39, BC_FOOD_2, SYMBOL_FOOD_2, COLP_FOOD_2);
+  placeItem(aboard, 15, 50, BC_FOOD_2, SYMBOL_FOOD_2, COLP_FOOD_2);
+  placeItem(aboard, 4, 29, BC_FOOD_2, SYMBOL_FOOD_2, COLP_FOOD_2);
   placeItem(aboard, 3, 55, BC_FOOD_2, SYMBOL_FOOD_2, COLP_FOOD_2);
   placeItem(aboard, 18, 5, BC_FOOD_2, SYMBOL_FOOD_2, COLP_FOOD_2);
 
-  placeItem(aboard, 14, 60, BC_FOOD_3, SYMBOL_FOOD_3, COLP_FOOD_3);
-  placeItem(aboard, 21, 49, BC_FOOD_3, SYMBOL_FOOD_3, COLP_FOOD_3);
-  placeItem(aboard, 9, 35, BC_FOOD_3, SYMBOL_FOOD_3, COLP_FOOD_3);
-  placeItem(aboard, 24, 6, BC_FOOD_3, SYMBOL_FOOD_3, COLP_FOOD_3);
+  placeItem(aboard, 14, 43, BC_FOOD_3, SYMBOL_FOOD_3, COLP_FOOD_3);
+  placeItem(aboard, 21, 47, BC_FOOD_3, SYMBOL_FOOD_3, COLP_FOOD_3);
+  placeItem(aboard, 19, 36, BC_FOOD_3, SYMBOL_FOOD_3, COLP_FOOD_3);
+  placeItem(aboard, 23, 8, BC_FOOD_3, SYMBOL_FOOD_3, COLP_FOOD_3);
 
   // Initialize number of food items
   // Attention: must match number of items placed on the board above
