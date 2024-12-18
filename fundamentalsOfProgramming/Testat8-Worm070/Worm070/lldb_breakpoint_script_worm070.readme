@@ -1,0 +1,27 @@
+# Prerequisite:
+# You created a symbolic link
+#    ~/Debugger-LLDB
+# to directory
+#   ~/git_public_GdP1/Debugger-LLDB
+#
+# See file
+#   ~/git_public_GdP1/Debugger-LLDB/Setup-LLDB-environment.howto.txt
+#
+
+# Window 1: the window showing the worm (70x30)
+# Start the worm program.
+# It should stop at some getc() or getchar() statement or
+# stop somewhere else, e.g. due to single step execution 's' of readUserInput()
+
+$ bin/worm
+
+
+# Window 2: the debugger window (90x30)
+
+$ lldb -p `pidof worm` -s ~/Debugger-LLDB/FABR/Worm070/lldb_breakpoint_script_init
+
+# Only on MacOS systems:
+# A window pops up: Developer Tools Access
+#
+# Enter your password to allow the debugger to access the worm binary
+
