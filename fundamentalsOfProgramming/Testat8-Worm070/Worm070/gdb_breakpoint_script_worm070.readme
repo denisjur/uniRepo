@@ -1,0 +1,8 @@
+# Update your local git repository
+
+(cd ~/git_public_GdP1; git pull)
+
+# Start the debugger GDB
+
+gdbtui -q -p `pidof bin/worm` -x ~/git_public_GdP1/Debugger-GDB/FABR/gdb.worm070
+
