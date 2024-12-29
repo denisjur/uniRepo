@@ -9,16 +9,25 @@
 // University of Applied Sciences
 
 // The board model
+
+// The board model
+
 #ifndef _BOARD_MODEL_H
 #define _BOARD_MODEL_H
 
 #include "worm.h"
 #include <curses.h>
 
-// Placing and removing items on game board
+// Positions on the board
+struct pos {
+  int y; // y-Coordinate (row)
+  int x; // x-Coordinate (column)
+};
+
+// Placing and removing items from the game board
 extern void placeItem(int y, int x, chtype symbol, enum ColorPair color_pair);
 
-// Getters (= Methoden oder Funktionen, die verwendet werden, um den Wert eines Attributs oder einer Eigenschaft eines Objekts abzurufen)
+// Getters
 extern int getLastRow();
 extern int getLastCol();
 

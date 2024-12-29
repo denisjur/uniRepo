@@ -7,6 +7,8 @@
 // Denis Jur
 // University of Applied Sciences
 
+// Basic functions for initialization and cleanup of curses applications
+
 #include "prep.h"
 #include <curses.h>
 
@@ -18,12 +20,11 @@ void initializeCursesApplication() {
   // The call to initscr() defines various global variables of the curses
   // framework. stdscr, LINES, COLS, TRUE, FALSE
 
-  noecho();             // Characters typed are not echoed
-  cbreak();             // No buffering of stdin
-  nonl();               // Do not translate 'return key' on keyboard to newline character
+  noecho(); // Characters typed ar not echoed
+  cbreak(); // No buffering of stdin
+  nonl();   // Do not translate 'return key' on keyboard to newline character
   keypad(stdscr, TRUE); // Enable the keypad
   curs_set(0);          // Make cursor invisible
-
   // Begin in non-single-step mode (getch will not block)
   nodelay(stdscr, TRUE); // make getch to be a non-blocking call
 }

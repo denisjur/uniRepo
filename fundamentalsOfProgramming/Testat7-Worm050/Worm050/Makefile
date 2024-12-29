@@ -73,4 +73,3 @@ $(BIN_DIR):
 .PHONY: clean
 clean :
 	$(RM_DIR) $(BIN_DIR) $(OBJECTS)
-
