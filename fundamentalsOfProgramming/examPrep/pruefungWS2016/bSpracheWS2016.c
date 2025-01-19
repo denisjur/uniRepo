@@ -37,7 +37,8 @@ char* nachB(char* s) {
 
     // Speicherplatz für den neuen String berechnen
     int newSize = len + (vokale * 2) + 1; // +2 für jedes zusätzliche 'b' und Vokal, +1 für '\0'
-    char* transformed = (char*)malloc(newSize * sizeof(char));
+    char* transformed = (char*)malloc(newSize * sizeof(char));  // Aici te intereseaza SizeOf unui character, daca iti dadea inapoi un int presupun ca scrieai sizeof(int).
+                                                                // Dar din cauza ca returneaza un pointer spre char, trebe sa scri sizeof(char)
 
     if (transformed == NULL) {
         printf("Fehler: Speicher konnte nicht zugewiesen werden!\n");
