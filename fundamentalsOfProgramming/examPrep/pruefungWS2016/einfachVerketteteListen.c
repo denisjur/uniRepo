@@ -1,135 +1,127 @@
 #include <stdio.h>
-#include <malloc.h>
-//array : [1,2,3,4,5,6,7]
+#include <stdlib.h>
 
-//listele simplu inlantuite:
-//structuri de date care sunt alocate dinamic in HEAP
-//node1 (informatie, NEXT) -----> node2(informatie, NEXT)------> node3(informatie, NEXT) ---> node4(informatie, NEXT)->>NULL
+// Definition des Knotens für die verkettete Liste
+typedef struct node {
+    int data;              // Daten des Knotens
+    struct node* next;     // Zeiger auf den nächsten Knoten
+} node_t;
 
-struct Node {
-      int data;//infortie
-      struct Node *next;//camp de legatura
-};
-//exercitiul 1
-struct Node* list_create_node(int value) {
-
-      //                     void*
-      struct Node *newNode = (struct Node*)malloc(sizeof(struct Node));
-
-      if(newNode == NULL) {
-        printf("Eroare la alocare memorie!");
-        return NULL;
-      }
-
-      newNode->data = value;
-      newNode->next= NULL;
-
-      return newNode;
-
+// a) Funktion welche neue Nodes erstellt
+node_t* list_create_node(int d) {
+    // Erstellen eines neuen Knotens mit dem Wert `d`
+    node_t* new_node = (node_t*)malloc(sizeof(node_t)); // Speicher reservieren
+    
+    if (new_node == NULL) {
+        fprintf(stderr, "Speicher konnte nicht zugewiesen werden\n");
+        exit(EXIT_FAILURE);
+    }
+    
+    new_node->data = d;    // Wert setzen
+    new_node->next = NULL; // Initialisieren des Zeigers auf NULL
+    return new_node;       // Zeiger auf den neuen Knoten zurückgeben
 }
 
-struct Node *adaugaInLista(struct Node *head, int value) {
 
-      struct Node* newNode = list_create_node(value);
-
-      if(head == NULL) return newNode;
-
-      struct Node *current = head;
-
-      while(current->next != NULL) {
-
-        current = current->next;
-      }
-
-      current->next = newNode;
-
-      return head;
+// Hilfsfunktion zum Einfügen eines Elements am Anfang der Liste
+node_t* insert(node_t* list, int value) {
+    node_t* new_node = list_create_node(value); // Neuen Knoten erstellen
+    new_node->next = list;                     // Neuer Knoten zeigt auf aktuellen Kopf
+    return new_node;                           // Neuer Kopf der Liste zurückgeben
 }
 
-//exercitiul 2
-void printList(struct Node* head) {
-
-      struct Node*current = head;
-
-      printf("Lista: ");
-
-      while(current != NULL) {
-
-          printf("%d -> ", current->data);
-
-          current = current->next;
-      }
-
-      printf("NULL\n");
-
+//  b) Iterative Funktion, welche die Liste printed
+void print_list(node_t* list) {
+    // Durchläuft die Liste und gibt alle Werte aus
+    while (list != NULL) {
+        printf("%d, ", list->data); // Wert des aktuellen Knotens ausgeben
+        list = list->next;          // Zum nächsten Knoten gehen
+    }
+    printf("\n"); // Neue Zeile nach der Ausgabe
 }
 
-int countDiv3(struct Node *head) {
+// c) Rekursive Implementierung der Funktion `count3div`
+int count3div(node_t* node) {
+    // Basisfall: Wenn die Liste leer ist, gibt es keine Elemente mehr
+    if (node == NULL) return 0;
 
-    int counterDiv3 = 0;
+    // Rekursive Zählung: Prüfen, ob der aktuelle Wert durch 3 teilbar ist
+    return (node->data % 3 == 0) + count3div(node->next);
+}
 
-    struct Node*current = head;
+//  d) Implementierung der Funktion `copy3div_to_array`
+int* copy3div_to_array(node_t* node) {
+    int count = count3div(node); // Anzahl der durch 3 teilbaren Elemente zählen
 
-    //ma deplasez pe fiecare nod pana cand ajung la NULL si testez daca este divizibil cu 3
+    // Falls keine durch 3 teilbaren Elemente existieren, NULL zurückgeben
+    if (count == 0) return NULL;
 
-    while(current!=NULL) {
-
-        if(current->data % 3 == 0) counterDiv3++;
-
-        current = current->next;
+    // Speicherplatz für das Array reservieren
+    int* array = (int*)malloc(count * sizeof(int));
+    if (array == NULL) {
+        fprintf(stderr, "Speicher konnte nicht zugewiesen werden\n");
+        exit(EXIT_FAILURE);
     }
 
-    return counterDiv3;
-}
-
-int* copy3div_to_array(struct Node *head) {
-
-    int SIZE = 100;
-    //array alocat dinamic in HEAP
-    int *ptr = (int*)malloc(SIZE * sizeof(int));
-
-    struct Node* current = head;
-
-    int i = 0;
-
-    while(current!=NULL) {
-
-      if(current->data % 3 == 0) {
-
-        *(ptr+i) = current->data;
-        i++;
-
-      }
-
-      current = current->next;
+    // Kopieren der durch 3 teilbaren Elemente ins Array
+    int index = 0;
+    while (node != NULL) {
+        if (node->data % 3 == 0) { // Nur durch 3 teilbare Werte speichern
+            array[index++] = node->data;
+        }
+        node = node->next; // Zum nächsten Knoten gehen
     }
 
-    return ptr;
-
+    return array; // Array zurückgeben
 }
 
-
-int main(int argc, char const *argv[]) {
-
-  struct Node *head = NULL;
-
-  head = adaugaInLista(head, 10);
-  head = adaugaInLista(head, 20);
-  head = adaugaInLista(head, 30);
-  head = adaugaInLista(head, 40);
-  head = adaugaInLista(head, 50);
-  head = adaugaInLista(head, 33);
-  head = adaugaInLista(head, 21);
-  printList(head);
-
-  printf("Numarul de noduri divizibile cu 3 = %d", countDiv3(head));
-
-  int *ptr = copy3div_to_array(head);
-
-  printf("\nNodurile divizibile cu 3 sunt urmatoarele \n");
-  printf("%d ", *(ptr+0));
-  printf("%d ", *(ptr+1));
-  printf("%d ", *(ptr+2));
-
-  return 0;
+// Funktion zur Ausgabe eines Arrays
+void print_array(int* array, int length) {
+    for (int i = 0; i < length; i++) {
+        printf("%d, ", array[i]); // Array-Wert ausgeben
+    }
+    printf("\n");
 }
+
+// Funktion zum Freigeben des Speichers der Liste
+void delete_list(node_t* list) {
+    while (list != NULL) {
+        node_t* temp = list;   // Temporären Zeiger setzen
+        list = list->next;     // Zum nächsten Knoten gehen
+        free(temp);            // Speicher des aktuellen Knotens freigeben
+    }
+}
+
+// Hauptprogramm
+int main(void) {
+    node_t* list; // Anker für eine verkettete Liste (Startknoten)
+
+    // Liste erzeugen
+    list = insert(insert(insert(NULL, 7), 3), 4);
+    list = insert(list, 27);
+    list = insert(list, 48);
+
+    // Liste ausgeben
+    printf("Liste: ");
+    print_list(list);
+
+    // Zähle Anzahl der Elemente, die durch 3 teilbar sind
+    int l = count3div(list);
+    printf("Anzahl durch 3 teilbarer Elemente: %d\n", l);
+
+    // Kopiere die durch 3 teilbaren Elemente in ein Array
+    int* array = copy3div_to_array(list);
+
+    // Array ausgeben
+    if (array != NULL) {
+        printf("Array der durch 3 teilbaren Elemente: ");
+        print_array(array, l);
+        free(array); // Speicher des Arrays freigeben
+    }
+
+    // Speicher der Liste freigeben
+    delete_list(list);
+
+    exit(EXIT_SUCCESS);
+}
+
