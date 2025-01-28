@@ -10,10 +10,3 @@ Use the following command in your terminal:
 ```sh
 nasm -f elf32 arithmetischesMittelFERTIG.asm && gcc -m32 arithmetischesMittelFERTIG.o -o arithmetischesMittelFERTIG.out && ./arithmetischesMittelFERTIG.out
 ```
-~
-~
-~
-~                                                                                                        
-~                                                                                                        
-~                                                                                                        
-~                                        
