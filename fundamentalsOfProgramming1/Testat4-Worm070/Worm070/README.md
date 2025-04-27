@@ -20,3 +20,13 @@
     - Distinct symbols for the head
     - Inner body segments
     - Tail
+
+
+## 📋Running the Program
+
+Once the program is ready, execute it using the following command:
+
+```sh
+make && bin/worm
+```
+
