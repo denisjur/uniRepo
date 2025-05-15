@@ -6,9 +6,9 @@ A repository for storing university-related projects, research and academic mate
 
 ```sh 
 .
-├── fundamentalsOfProgramming       # Grundlagen der Programmierung (Fundamentals of Programming)
-│   └── C projects                  # C programming tasks and exercises
-├── computerArchitecture            # Rechnerarchitektur (Computer Architecture)
+├── fundamentalsOfProgramming1      # Grundlagen der Programmierung 
+│   └── C projects                  # C programming tasks, exercises and tests
+├── computerArchitecture            # Rechnerarchitektur 
 │   └── Assembly projects           # Assembly language projects
 └── README.md                       # Overview of the repository and its contents
 ```
